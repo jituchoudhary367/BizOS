@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════
+   BizOS — Global Styles & Design System
+   ═══════════════════════════════════════════════════════════ */
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-surface text-text-primary font-sans;
+    min-height: 100vh;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-surface;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-surface-hover rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-tertiary;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-brand-500/30 text-text-primary;
+  }
+}
+
+@layer components {
+  /* ─── Card Styles ──────────────────────────────────────── */
+  .card {
+    @apply bg-surface-raised border border-surface-border rounded-xl
+           transition-colors duration-200;
+  }
+  .card:hover {
+    @apply border-surface-hover;
+  }
+
+  /* ─── Glass morphism ─────────────────────────────────── */
+  .glass {
+    @apply bg-surface-raised/80 backdrop-blur-xl border border-surface-border;
+  }
+
+  /* ─── Gradient text ──────────────────────────────────── */
+  .text-gradient {
+    @apply bg-gradient-brand bg-clip-text text-transparent;
+  }
+
+  /* ─── Pulse dot (realtime indicator) ─────────────────── */
+  .pulse-dot {
+    @apply relative;
+  }
+  .pulse-dot::after {
+    content: '';
+    @apply absolute w-2 h-2 bg-success rounded-full;
+    animation: pulseDot 2s ease-in-out infinite;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+  }
+
+  /* ─── Grain texture overlay ──────────────────────────── */
+  .grain-overlay::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* ─── Sidebar styles ─────────────────────────────────── */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg
+           text-text-secondary hover:text-text-primary
+           hover:bg-surface-raised transition-all duration-150
+           cursor-pointer text-sm font-medium;
+  }
+  .sidebar-item.active {
+    @apply text-brand-500 bg-brand-500/10;
+    border-left: 3px solid theme('colors.brand.500');
+    padding-left: 9px;
+  }
+
+  /* ─── Status badges ──────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .badge-success { @apply bg-success-muted text-success; }
+  .badge-warning { @apply bg-warning-muted text-warning; }
+  .badge-danger  { @apply bg-danger-muted text-danger; }
+  .badge-info    { @apply bg-brand-500/10 text-brand-400; }
+  .badge-neutral { @apply bg-surface-hover text-text-secondary; }
+
+  /* ─── Metric card counter animation ──────────────────── */
+  .metric-value {
+    @apply font-mono text-2xl font-semibold text-text-primary;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ─── Data table ─────────────────────────────────────── */
+  .data-table {
+    @apply w-full text-sm;
+  }
+  .data-table thead th {
+    @apply px-4 py-3 text-left text-xs font-medium text-text-tertiary uppercase tracking-wider
+           border-b border-surface-border bg-surface;
+  }
+  .data-table tbody tr {
+    @apply border-b border-surface-border transition-colors duration-150;
+  }
+  .data-table tbody tr:hover {
+    @apply bg-surface-raised;
+  }
+  .data-table tbody td {
+    @apply px-4 py-3 text-text-secondary;
+  }
+
+  /* ─── Input styles ───────────────────────────────────── */
+  .input {
+    @apply w-full px-3 py-2 bg-surface border border-surface-border rounded-lg
+           text-text-primary placeholder:text-text-disabled
+           focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500/30
+           transition-all duration-200 text-sm;
+  }
+
+  /* ─── Button base ────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
+           text-sm font-medium transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-brand-500/30
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-brand-500 text-white hover:bg-brand-600 active:bg-brand-700;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-text-secondary hover:text-text-primary
+           hover:bg-surface-raised border border-surface-border;
+  }
+  .btn-danger {
+    @apply btn bg-danger text-white hover:bg-danger-dark;
+  }
+  .btn-success {
+    @apply btn bg-success text-white hover:bg-success-dark;
+  }
+
+  /* ─── WhatsApp chat bubble styles ────────────────────── */
+  .chat-bubble {
+    @apply relative px-4 py-2.5 rounded-2xl max-w-[85%] text-sm leading-relaxed;
+  }
+  .chat-bubble-incoming {
+    @apply chat-bubble bg-surface-raised text-text-primary rounded-bl-md;
+  }
+  .chat-bubble-outgoing {
+    @apply chat-bubble bg-brand-500/15 text-text-primary rounded-br-md;
+  }
+  .chat-bubble-whatsapp {
+    @apply chat-bubble bg-[#1B3A2D] text-[#E9EEE4] rounded-bl-md;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Glow effect for AI processing */
+  .ai-glow {
+    box-shadow: 0 0 15px rgba(108, 99, 255, 0.3),
+                0 0 30px rgba(108, 99, 255, 0.1);
+  }
+
+  /* Background flash for realtime updates */
+  .flash-update {
+    animation: flashUpdate 1s ease-out;
+  }
+  @keyframes flashUpdate {
+    0% { background-color: rgba(108, 99, 255, 0.15); }
+    100% { background-color: transparent; }
+  }
+}
